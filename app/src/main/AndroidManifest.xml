@@ -38,7 +38,8 @@
 
         <activity android:name=".login" />
         <activity android:name=".capPhoto" />
-        <activity android:name=".AppForm"/>
+        <activity android:name=".AppForm" />
+        <activity android:name=".StudentDashboard"></activity>
     </application>
 
 </manifest>
