@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ODML</string>
+    <string name="delete_success">Images was deleted!</string>
+    <string name="delete_failure">Image deletion failed</string>
+    <string name="saved_message">Image Saved at %1$s</string>
+    <string name="not_saved">Image not saved!</string>
+    <string name="error">Error finding image</string>
+    <string name="go">GO</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="nav_open_drawer">Open navigation drawer</string>
+    <string name="nav_close_drawer">Close navigation drawer</string>
+    <string-array name="nav_items">
+        <item>Apply For Leave</item>
+        <item>Check Application Status</item>
+        <item>View Attendance</item>
+    </string-array>
+</resources>
