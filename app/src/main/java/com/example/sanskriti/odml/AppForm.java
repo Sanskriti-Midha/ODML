@@ -31,8 +31,8 @@ public class AppForm extends BaseActivity {
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_app_form, null, false);
-
         mDrawerLayout.addView(contentView, 0);
+
         fromDate = (EditText) findViewById(R.id.from_date);
         toDate = (EditText) findViewById(R.id.to_date);
 
