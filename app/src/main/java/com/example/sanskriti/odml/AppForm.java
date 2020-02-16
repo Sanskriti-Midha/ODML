@@ -12,14 +12,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static java.lang.Boolean.FALSE;
+
 public class AppForm extends BaseActivity {
 
     final Calendar myCalendar = Calendar.getInstance();
+    private ToggleButton ml,od ;
     EditText fromDate, toDate;
     int check = -1;
     DatePickerDialog.OnDateSetListener date;
@@ -32,9 +36,22 @@ public class AppForm extends BaseActivity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_app_form, null, false);
         mDrawerLayout.addView(contentView, 0);
-
+        ml = findViewById(R.id.ML);
+        od = findViewById(R.id.OD);
         fromDate = (EditText) findViewById(R.id.from_date);
         toDate = (EditText) findViewById(R.id.to_date);
+        ml.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                od.setChecked(FALSE);
+            }
+        });
+        od.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ml.setChecked(FALSE);
+            }
+        });
 
         date = new DatePickerDialog.OnDateSetListener() {
 
