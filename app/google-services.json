@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "525418450336",
+    "firebase_url": "https://odml-f76f5.firebaseio.com",
+    "project_id": "odml-f76f5",
+    "storage_bucket": "odml-f76f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525418450336:android:f5456fb3bc5cbecf09e8c5",
+        "android_client_info": {
+          "package_name": "com.example.sanskriti.odml"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525418450336-9si4ugvjfelolngno6a35n6sc92ko3n7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sanskriti.odml",
+            "certificate_hash": "75d0893d9cf0674787bf3c030be1e3a91691e851"
+          }
+        },
+        {
+          "client_id": "525418450336-r9hbu07uv0ngpsr05q7kn6buvbfatv89.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtbGmkoZf4WFJzAQ_pQqkmnhfceEqJbEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525418450336-r9hbu07uv0ngpsr05q7kn6buvbfatv89.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
