@@ -39,7 +39,7 @@
 
 
         <activity android:name=".BaseActivity"/>
-        <activity android:name=".capPhoto" />
+        <activity android:name=".GetCertificate" />
         <activity android:name=".AppForm" />
         <activity android:name=".StudentDashboard"></activity>
     </application>

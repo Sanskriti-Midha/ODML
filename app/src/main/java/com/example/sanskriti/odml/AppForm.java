@@ -1,11 +1,8 @@
 package com.example.sanskriti.odml;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +94,7 @@ public class AppForm extends BaseActivity {
         attachCert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(AppForm.this, capPhoto.class);
+                Intent i = new Intent(AppForm.this, GetCertificate.class);
                 startActivity(i);
             }
         });
