@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -67,7 +68,7 @@ public class GetCertificate extends AppCompatActivity {
     private Button select_certificate;
     private Button upload_certificate;
     private ImageView display_certificate;
-    private Button clear_certificate;
+    private Button back_btn;
     private ProgressBar progress_bar;
     private EditText file_name;
     private String image_download_uri;
@@ -82,7 +83,7 @@ public class GetCertificate extends AppCompatActivity {
         select_certificate = findViewById(R.id.select_certificate_btn);
         upload_certificate = findViewById(R.id.upload_certificate_btn);
         display_certificate = findViewById(R.id.display_certificate);
-        clear_certificate = findViewById(R.id.clear_certificate_btn);
+        back_btn = findViewById(R.id.back_btn);
         progress_bar = findViewById(R.id.progress_bar);
         file_name = findViewById(R.id.file_name_EditText);
 
@@ -125,10 +126,12 @@ public class GetCertificate extends AppCompatActivity {
                 builder.show();
             }
         });
-        clear_certificate.setOnClickListener(new View.OnClickListener() {
+        back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                display_certificate.setImageDrawable(null);
+                Intent i = new Intent(getApplicationContext(), AppForm.class);
+                i.putExtra("link", image_download_uri);
+                startActivity(i);
             }
         });
 
@@ -147,7 +150,7 @@ public class GetCertificate extends AppCompatActivity {
             /*final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading..");
             progressDialog.show();*/
-            StorageReference reference = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(filePath));
+            final StorageReference reference = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(filePath));
 
             mUploadTask = reference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -156,15 +159,23 @@ public class GetCertificate extends AppCompatActivity {
                     Toast.makeText(GetCertificate.this, "Image Uploaded", Toast.LENGTH_SHORT);
 
                     //saving img name and download url to database
-                    HashMap<String,String> imgDetails = new HashMap<>();
+                    final HashMap<String,String> imgDetails = new HashMap<>();
                     imgDetails.put("Filename",file_name.getText().toString().trim());
-                    imgDetails.put("Download",mStorageRef.getDownloadUrl().toString());
-
-                    String uploadId = mDatabaseRef.push().getKey();
-                    mDatabaseRef.child(uploadId).setValue(imgDetails);
 
                     //image download url
-                    image_download_uri = taskSnapshot.getUploadSessionUri().toString();
+                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Log.d("GetCertificate", "onSuccess: uri= "+ uri.toString());
+                            image_download_uri = uri.toString();
+                            imgDetails.put("Download",uri.toString());
+
+                            String uploadId = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(uploadId).setValue(imgDetails);
+                        }
+                    });
+
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

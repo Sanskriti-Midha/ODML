@@ -1,13 +1,11 @@
 package com.example.sanskriti.odml;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -16,50 +14,53 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StudentDashboard extends BaseActivity {
+public class CheckStatus extends AppCompatActivity {
 
-    private String info;
-    private String[] infoArray;
-    private String TAG = "Student Dashboard";
     private Intent intent;
-    public String email;
-    private TextView name;
-    private TextView regno;
-    private TextView mail;
-    private TextView number;
+    private String email;
+    private String info;
+    private String[] ODsplit;
+    private ListView mylistview;
+
+    private String[] infoSplit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_student_dashboard, null, false);
-        mDrawerLayout.addView(contentView, 0);
-
-        name = findViewById(R.id.student_name);
-        regno = findViewById(R.id.student_regnum);
-        mail = findViewById(R.id.student_email);
-        number = findViewById(R.id.student_phNo);
+        setContentView(R.layout.activity_check_status);
 
         intent = getIntent();
         email = intent.getStringExtra("email");
-        Log.d(TAG, "This is the mail recevied from login - "+email);
-        StringRequest request = new StringRequest(Request.Method.POST,Constants.FETCH_DETAILS, new Response.Listener<String>() {
+
+        mylistview = findViewById(R.id.od_list);
+
+        System.out.println("This is the email from intent - "+email);
+
+        getDetails();
+
+    }
+
+    private void getDetails(){
+        StringRequest request = new StringRequest(Request.Method.POST,Constants.APPROVE_CHECK_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
-                System.out.println("Response is : " + response);
+                Log.d("CheckStatus", "Response is : " + response);
 
                 info = response;
-                infoArray = info.split(",");
-                Log.d(TAG, "This is the info "+response);
+                ODsplit = info.split("\n");
 
-                name.setText(infoArray[0]);
-                regno.setText(infoArray[1]);
-                mail.setText(infoArray[2]);
-                number.setText(infoArray[3]);
+                for(int i=0; i<ODsplit.length; i++)
+                {
+                    infoSplit = ODsplit[i].split(",");
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                        android.R.layout.simple_list_item_1, infoSplit);
 
+                mylistview.setAdapter(adapter);
             }
         }, new Response.ErrorListener() {
             @Override
