@@ -1,6 +1,7 @@
 package com.example.sanskriti.odml;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -52,6 +53,15 @@ public class login extends AppCompatActivity {
                 if(response.contains("Login Successful"))
                 {
                     Intent i = new Intent(login.this, StudentDashboard.class);
+                    i.putExtra("email",email);
+                    startActivity(i);
+
+                }
+                else if(response.contains("Faculty"))
+                {
+
+                    Intent i = new Intent(login.this, FacultyDashboard.class);
+                    i.putExtra("email",email);
                     startActivity(i);
                 }
 

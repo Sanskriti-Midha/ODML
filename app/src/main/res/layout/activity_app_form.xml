@@ -129,7 +129,7 @@
         />
     </LinearLayout>
     <Button
-        android:id="@+id/apply"
+        android:id="@+id/apply_Btn"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="25dp"
         android:layout_width="match_parent"
