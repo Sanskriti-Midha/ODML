@@ -61,42 +61,17 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/student_name"
+                        android:id="@+id/email_faculty_display"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
                         android:layout_gravity="center_horizontal"
+                        android:text="email"
                         android:textColor="@color/black"
                         />
 
-                    <TextView
-                        android:id="@+id/student_regnum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@color/black"
 
-                        />
 
-                    <TextView
-                        android:id="@+id/student_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@color/black"
-                        />
-
-                    <TextView
-                        android:id="@+id/student_phNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:textColor="@color/black"
-                        android:layout_gravity="center_horizontal"
-                        />
                 </LinearLayout>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

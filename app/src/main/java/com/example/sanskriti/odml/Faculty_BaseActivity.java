@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class BaseActivity extends AppCompatActivity {
+public class Faculty_BaseActivity extends AppCompatActivity {
 
     private String[] mNavigationDrawerItemTitles;
     protected DrawerLayout mDrawerLayout;
@@ -20,8 +20,6 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private Intent i;
-    private String s;
     androidx.appcompat.app.ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -33,16 +31,12 @@ public class BaseActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        i = super.getIntent();
-        s = i.getStringExtra("email");
-        Log.d("BaseActivity", "this is the mail in BaseActivity - "+s);
         setupToolbar();
 
-        DataModel[] drawerItem = new DataModel[3];
+        DataModel[] drawerItem = new DataModel[1];
 
-        drawerItem[0] = new DataModel(R.drawable.ic_apply_leave, "Apply Leave");
-        drawerItem[1] = new DataModel(R.drawable.ic_check_status, "Check Status");
-        drawerItem[2] = new DataModel(R.drawable.ic_attendance, "Attendance");
+        drawerItem[0] = new DataModel(R.drawable.ic_check_status, "Approve OD");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -70,17 +64,8 @@ public class BaseActivity extends AppCompatActivity {
 
         switch (position) {
             case 0:
-                 i = new Intent(this, AppForm.class);
-                 i.putExtra("email",s);
+                i = new Intent(this, ApproveOD.class);
                 break;
-            case 1:
-                i = new Intent(this, CheckStatus.class);
-                i.putExtra("email",s);
-                break;
-            case 2:
-                i = new Intent(this, AppForm.class);
-                break;
-
             default:
                 break;
         }
