@@ -2,7 +2,6 @@ package com.example.sanskriti.odml;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StudentDashboard extends BaseActivity {
+public class StudentDashboard extends Student_BaseActivity {
 
     private String info;
     private String[] infoArray;

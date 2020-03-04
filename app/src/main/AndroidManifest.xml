@@ -40,7 +40,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".BaseActivity" />
+        <activity android:name=".Student_BaseActivity" />
         <activity android:name=".GetCertificate" />
         <activity android:name=".AppForm" />
         <activity android:name=".StudentDashboard" />

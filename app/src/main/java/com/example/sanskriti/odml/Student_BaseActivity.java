@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class BaseActivity extends AppCompatActivity {
+public class Student_BaseActivity extends AppCompatActivity {
 
     private String[] mNavigationDrawerItemTitles;
     protected DrawerLayout mDrawerLayout;
@@ -35,7 +35,7 @@ public class BaseActivity extends AppCompatActivity {
 
         i = super.getIntent();
         s = i.getStringExtra("email");
-        Log.d("BaseActivity", "this is the mail in BaseActivity - "+s);
+        Log.d("Student_BaseActivity", "this is the mail in Student_BaseActivity - "+s);
         setupToolbar();
 
         DataModel[] drawerItem = new DataModel[3];

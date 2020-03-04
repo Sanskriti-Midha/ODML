@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CheckStatus extends AppCompatActivity {
+public class CheckStatus extends AppCompatActivity{
 
     private String TAG = "CheckStatus";
     private Intent intent;
@@ -51,7 +51,7 @@ public class CheckStatus extends AppCompatActivity {
 
         mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 int x = checkApproval();
                 if(x == -1)
                 {
@@ -76,7 +76,15 @@ public class CheckStatus extends AppCompatActivity {
                     dialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            //Removing OD details from database
                             int x = closeOD();
+                            Log.d(TAG, "Removed OD details from the database");
+                            //Removing the data from the listview data array
+                            names.remove(position);
+                            //Update listview
+                            mylistview.deferNotifyDataSetChanged();
+                            Toast.makeText(CheckStatus.this, "OD closed", Toast.LENGTH_SHORT).show();
+
                             if(x==1)
                             {
                                 Toast.makeText(CheckStatus.this, "OD closed successfully.", Toast.LENGTH_SHORT).show();
@@ -115,7 +123,7 @@ public class CheckStatus extends AppCompatActivity {
         })
         {
             @Override
-            protected Map<String, String> getParams()    throws AuthFailureError {
+            protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
 
                 params.put("email",email);

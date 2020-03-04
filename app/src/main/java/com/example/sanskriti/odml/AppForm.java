@@ -28,7 +28,7 @@ import java.util.Map;
 
 import static java.lang.Boolean.FALSE;
 
-public class AppForm extends BaseActivity {
+public class AppForm extends Student_BaseActivity {
 
     private final Calendar myCalendar = Calendar.getInstance();
     private ToggleButton ml,od ;
