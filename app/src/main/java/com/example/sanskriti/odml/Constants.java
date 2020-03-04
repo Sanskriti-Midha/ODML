@@ -9,4 +9,5 @@ public class Constants {
     public static final String UPDATE_OD_URL= DB_URL+"update_od.php";
     public static final String DELETE_OD_URL= DB_URL+"delete_od.php";
     public static final String CHECK_APPROVE_STATUS_URL= DB_URL+"student_check_approval.php";
+    public static final String DECLINE_OD_URL= DB_URL+"decline_od.php";
 }

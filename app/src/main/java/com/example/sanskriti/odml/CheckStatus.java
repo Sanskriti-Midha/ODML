@@ -53,7 +53,7 @@ public class CheckStatus extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 int x = checkApproval();
-                if(x == -1)
+                if(x == 666)
                 {
                     Log.d(TAG, "Approval status check failed.");
                 }
@@ -64,15 +64,46 @@ public class CheckStatus extends AppCompatActivity{
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getApplicationContext());
                 dialog.setCancelable(false);
-                dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                if(ODapproved == 1)
+
+                if(ODapproved == 1) //OD approved case.
                 {
                     dialog.setMessage("OD Approved, close OD.");
+                    dialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int x = closeOD(); //Removing OD details from database
+                            Log.d(TAG, "Removed OD details from the database");
+                            names.remove(position);  //Removing the data from the listview data array
+                            mylistview.deferNotifyDataSetChanged(); //Update listview
+
+                            if(x==1)
+                            {
+                                Toast.makeText(CheckStatus.this, "OD closed successfully.", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "OD closed successfully.");
+                            }
+                            else
+                            {
+                                Toast.makeText(CheckStatus.this, "OD closed failed.", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "OD closed failed.");
+                            }
+
+                            dialog.dismiss();
+                        }
+                    });
+                }
+                else if(ODapproved == 0) //OD pending case.
+                {
+                    dialog.setMessage("Pending..");
+                    dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+                else if(ODapproved == -1) //OD rejected case.
+                {
+                    dialog.setMessage("Your OD application was rejected");
                     dialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -83,15 +114,14 @@ public class CheckStatus extends AppCompatActivity{
                             names.remove(position);
                             //Update listview
                             mylistview.deferNotifyDataSetChanged();
-                            Toast.makeText(CheckStatus.this, "OD closed", Toast.LENGTH_SHORT).show();
 
                             if(x==1)
                             {
-                                Toast.makeText(CheckStatus.this, "OD closed successfully.", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "OD closed successfully.");
                             }
                             else
                             {
-                                Toast.makeText(CheckStatus.this, "OD closed failed.", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "OD closed failed.");
                             }
 
                             dialog.dismiss();
@@ -136,7 +166,7 @@ public class CheckStatus extends AppCompatActivity{
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
 
         if(res.equals("ERROR OCCURED")){
-            return -1;
+            return 666;
         }
         else
         {
@@ -145,10 +175,15 @@ public class CheckStatus extends AppCompatActivity{
             {
                 return 1;
             }
-            else
+            else if(temp == 0)
             {
                 return 0;
             }
+            else if(temp == -1)
+            {
+                return -1;
+            }
+            return 666;
         }
     }
     private int closeOD()
