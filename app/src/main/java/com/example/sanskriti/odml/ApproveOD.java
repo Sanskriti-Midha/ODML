@@ -27,13 +27,16 @@ public class ApproveOD extends AppCompatActivity {
     private String info;
     private String[] ODsplit;
     private String[] infoSplit;
+    private String res = "";
+    private ArrayList<String> names_od;
+    private String TAG = "ApproveOD";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approve_od);
 
         od_list = findViewById(R.id.od_list);
-
+        names_od = new ArrayList<>();
         getDetails();
 
         od_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -46,7 +49,21 @@ public class ApproveOD extends AppCompatActivity {
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Approve(n);
+                        int x = Approve(n);
+                        if(x==1)
+                        {
+                            Toast.makeText(ApproveOD.this, "OD approved.", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(ApproveOD.this, "System Error - approval failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                dialog.setNeutralButton("Show details", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
                     }
                 });
                 dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -66,19 +83,18 @@ public class ApproveOD extends AppCompatActivity {
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
                 Log.d("ApproveOD - getDetails", "Response is : " + response);
-
                 info = response;
                 ODsplit = info.split("\n");
-
+                String[] names = new String[ODsplit.length];
                 for(int i=0; i<ODsplit.length; i++)
                 {
-                    infoSplit = ODsplit[i].split(",");
+                    String[] temp = ODsplit[i].split(",");
+                    names_od.add(temp[1]);
+                    Log.d(TAG, "Getting ods - roll number : "+temp[1]);
                 }
 
-                ArrayList<String> roll = new ArrayList<>();
-                roll.add(infoSplit[0]);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-                        android.R.layout.simple_list_item_1, roll);
+                        android.R.layout.simple_list_item_1, names_od);
 
                 od_list.setAdapter(adapter);
             }
@@ -100,12 +116,14 @@ public class ApproveOD extends AppCompatActivity {
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-    private void Approve(final String n){
+    private int Approve(final String n){
         StringRequest request = new StringRequest(Request.Method.POST,Constants.UPDATE_OD_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
                 Log.d("ApproveOD - Approve()", "Response is : " + response);
+
+                res = response;
             }
         }, new Response.ErrorListener() {
             @Override
@@ -122,7 +140,15 @@ public class ApproveOD extends AppCompatActivity {
                 return params;
             }
         };
-
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+
+        if(res.equals("Approved"))
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
     }
 }
