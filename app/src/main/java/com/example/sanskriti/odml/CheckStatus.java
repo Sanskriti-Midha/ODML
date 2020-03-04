@@ -35,6 +35,7 @@ public class CheckStatus extends AppCompatActivity{
     private String[] infoSplit;
     private String res;
     private int ODapproved = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,11 +159,9 @@ public class CheckStatus extends AppCompatActivity{
 
                 params.put("email",email);
                 //params.put("password",password);
-
                 return params;
             }
         };
-
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
 
         if(res.equals("ERROR OCCURED")){

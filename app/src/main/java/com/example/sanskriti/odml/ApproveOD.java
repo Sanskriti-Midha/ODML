@@ -30,6 +30,7 @@ public class ApproveOD extends AppCompatActivity {
     private String res = "";
     private ArrayList<String> names_od;
     private String TAG = "ApproveOD";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class ApproveOD extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(ApproveOD.this, "System Error - approval failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApproveOD.this, "Error - approval failed.", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "OD approved failed.");
                         }
                         dialog.dismiss();
@@ -68,7 +69,7 @@ public class ApproveOD extends AppCompatActivity {
                 dialog.setNeutralButton("Show details", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Toast.makeText(ApproveOD.this, "We will show details here", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
@@ -85,7 +86,7 @@ public class ApproveOD extends AppCompatActivity {
                         else if(x==0)
                         {
                             Log.d(TAG, "OD declined failed.");
-                            Toast.makeText(ApproveOD.this, "OD decline failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApproveOD.this, "Error - decline failed.", Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }
@@ -129,7 +130,6 @@ public class ApproveOD extends AppCompatActivity {
         {
             return -1;
         }
-
     }
     private void getDetails(){
         StringRequest request = new StringRequest(Request.Method.POST,Constants.APPROVE_CHECK_URL, new Response.Listener<String>() {
