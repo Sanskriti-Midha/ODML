@@ -33,7 +33,7 @@ public class CheckStatus extends AppCompatActivity{
     private HashMap<String,String[]> details;
     private ArrayList<String> names;
     private String[] infoSplit;
-    private String res;
+    private String res ="0";
     private int ODapproved = 0;
 
     @Override
@@ -54,14 +54,15 @@ public class CheckStatus extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 int x = checkApproval();
-                if(x == 666)
-                {
-                    Log.d(TAG, "Approval status check failed.");
-                }
-                else
-                {
-                    ODapproved = Integer.parseInt(res);
-                }
+//                Log.d(TAG, "checkApproval ");
+//                if(x == 666)
+//                {
+//                    Log.d(TAG, "Approval status check failed.");
+//                }
+//                else
+//                {
+//                    ODapproved = Integer.parseInt(res);
+//                }
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getApplicationContext());
                 dialog.setCancelable(false);
@@ -138,12 +139,16 @@ public class CheckStatus extends AppCompatActivity{
 
     private int checkApproval()
     {
+        Log.d(TAG, "checkApproval() called");
+        final int[] val = new int[1];
         StringRequest request = new StringRequest(Request.Method.POST,Constants.CHECK_APPROVE_STATUS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
                 Log.d("CheckStatus", "Response is : " + response);
                 res = response;
+                System.out.println(res);
+               // val[0] = check(res);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -157,13 +162,17 @@ public class CheckStatus extends AppCompatActivity{
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
 
-                params.put("email",email);
+                params.put("rollnumber",email);
                 //params.put("password",password);
                 return params;
             }
         };
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
 
+       return val[0];
+    }
+
+    private int check(String res) {
         if(res.equals("ERROR OCCURED")){
             return 666;
         }
@@ -185,6 +194,7 @@ public class CheckStatus extends AppCompatActivity{
             return 666;
         }
     }
+
     private int closeOD()
     {
 
