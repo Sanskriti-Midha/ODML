@@ -54,21 +54,21 @@ public class CheckStatus extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 int x = checkApproval();
-//                Log.d(TAG, "checkApproval ");
-//                if(x == 666)
-//                {
-//                    Log.d(TAG, "Approval status check failed.");
-//                }
-//                else
-//                {
-//                    ODapproved = Integer.parseInt(res);
-//                }
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getApplicationContext());
-                dialog.setCancelable(false);
+                if(x == 666)
+                {
+                    Log.d(TAG, "Approval status check failed.");
+                }
+                else
+                {
+                    ODapproved = Integer.parseInt(res);
+                }
+
 
                 if(ODapproved == 1) //OD approved case.
                 {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(CheckStatus.this);
+                    dialog.setCancelable(false);
                     dialog.setMessage("OD Approved, close OD.");
                     dialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
@@ -92,9 +92,12 @@ public class CheckStatus extends AppCompatActivity{
                             dialog.dismiss();
                         }
                     });
+                    dialog.show();
                 }
                 else if(ODapproved == 0) //OD pending case.
                 {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(CheckStatus.this);
+                    dialog.setCancelable(false);
                     dialog.setMessage("Pending..");
                     dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -102,9 +105,12 @@ public class CheckStatus extends AppCompatActivity{
                             dialog.dismiss();
                         }
                     });
+                    dialog.show();
                 }
                 else if(ODapproved == -1) //OD rejected case.
                 {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(CheckStatus.this);
+                    dialog.setCancelable(false);
                     dialog.setMessage("Your OD application was rejected");
                     dialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
@@ -129,6 +135,7 @@ public class CheckStatus extends AppCompatActivity{
                             dialog.dismiss();
                         }
                     });
+                    dialog.show();
                 }
 
             }
@@ -148,7 +155,6 @@ public class CheckStatus extends AppCompatActivity{
                 Log.d("CheckStatus", "Response is : " + response);
                 res = response;
                 System.out.println(res);
-               // val[0] = check(res);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -169,10 +175,6 @@ public class CheckStatus extends AppCompatActivity{
         };
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
 
-       return val[0];
-    }
-
-    private int check(String res) {
         if(res.equals("ERROR OCCURED")){
             return 666;
         }
@@ -185,6 +187,7 @@ public class CheckStatus extends AppCompatActivity{
             }
             else if(temp == 0)
             {
+                Log.d(TAG, "Returning - "+res);
                 return 0;
             }
             else if(temp == -1)
@@ -194,6 +197,29 @@ public class CheckStatus extends AppCompatActivity{
             return 666;
         }
     }
+
+//    private int check(String res) {
+//        if(res.equals("ERROR OCCURED")){
+//            return 666;
+//        }
+//        else
+//        {
+//            int temp = Integer.parseInt(res);
+//            if(temp == 1)
+//            {
+//                return 1;
+//            }
+//            else if(temp == 0)
+//            {
+//                return 0;
+//            }
+//            else if(temp == -1)
+//            {
+//                return -1;
+//            }
+//            return 666;
+//        }
+//    }
 
     private int closeOD()
     {

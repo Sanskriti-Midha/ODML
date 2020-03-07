@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ApproveOD extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class ApproveOD extends AppCompatActivity {
         od_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                final String n = parent.getItemAtPosition(position).toString();
+                final String n = parent.getItemAtPosition(position).toString().trim();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(ApproveOD.this);
                 dialog.setMessage("Approve OD?");
                 dialog.setCancelable(false);
@@ -55,6 +56,7 @@ public class ApproveOD extends AppCompatActivity {
                         {
                             names_od.remove(position); //Removing this od request from array
                             od_list.deferNotifyDataSetChanged(); //Updating listview
+                            Log.d(TAG, "Listview updated after aproval");
                             Toast.makeText(ApproveOD.this, "OD approved.", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "OD approved successful.");
                         }
@@ -176,7 +178,6 @@ public class ApproveOD extends AppCompatActivity {
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Response is : " + response);
-
                 res = response;
             }
         }, new Response.ErrorListener() {
@@ -196,12 +197,20 @@ public class ApproveOD extends AppCompatActivity {
         };
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
 
+        try {
+            TimeUnit.MINUTES.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if(res.equals("Approved"))
         {
+            Log.d(TAG, "Return approved flag.");
             return 1;
         }
         else
         {
+            Log.d(TAG, "Return error flag.");
             return -1;
         }
     }
