@@ -51,45 +51,37 @@ public class ApproveOD extends AppCompatActivity {
                 dialog.setPositiveButton("Approve", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int x = Approve(n);
-                        if(x==1)
-                        {
-                            names_od.remove(position); //Removing this od request from array
-                            od_list.deferNotifyDataSetChanged(); //Updating listview
-                            Log.d(TAG, "Listview updated after aproval");
-                            Toast.makeText(ApproveOD.this, "OD approved.", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "OD approved successful.");
-                        }
-                        else
-                        {
-                            Toast.makeText(ApproveOD.this, "Error - approval failed.", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "OD approved failed.");
-                        }
+                        Log.d(TAG, "Approve button clicked");
+                        Approve(n);
+                        names_od.remove(position); //Removing this od request from array
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                                android.R.layout.simple_list_item_1, names_od);
+
+                        od_list.setAdapter(adapter); //Updating listview
+                        Log.d(TAG, "Listview updated after approval");
+                        Toast.makeText(ApproveOD.this, "OD approved.", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "OD approved successful.");
                         dialog.dismiss();
                     }
                 });
                 dialog.setNeutralButton("Show details", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "Show details button clicked");
                         Toast.makeText(ApproveOD.this, "We will show details here", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int x = declineOD(n);
-                        if(x==1)
-                        {
-                            names_od.remove(position); //Removing this od request from array
-                            od_list.deferNotifyDataSetChanged(); //Updating listview
-                            Toast.makeText(ApproveOD.this, "OD approved.", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "OD declined successful.");
-                        }
-                        else if(x==0)
-                        {
-                            Log.d(TAG, "OD declined failed.");
-                            Toast.makeText(ApproveOD.this, "Error - decline failed.", Toast.LENGTH_SHORT).show();
-                        }
+                        Log.d(TAG, "Decline button clicked");
+                        declineOD(n);
+                        names_od.remove(position); //Removing this od request from array
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                                android.R.layout.simple_list_item_1, names_od);
+
+                        od_list.setAdapter(adapter); //Updating listview
+                        Log.d(TAG, "OD declined successful, updated listview");
                         dialog.dismiss();
                     }
                 });
@@ -97,13 +89,13 @@ public class ApproveOD extends AppCompatActivity {
             }
         });
     }
-    private int declineOD(final String n)
+    private void declineOD(final String n)
     {
         StringRequest request = new StringRequest(Request.Method.POST,Constants.DECLINE_OD_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Response is : " + response);
+                Log.d(TAG, "Response from DECLINE OD : " + response);
 
                 res = response;
             }
@@ -118,27 +110,18 @@ public class ApproveOD extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
-                params.put("rollnumber", n);
+                params.put("email", n);
                 return params;
             }
         };
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
-
-        if(res.equals("Declined"))
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
     }
     private void getDetails(){
         StringRequest request = new StringRequest(Request.Method.POST,Constants.APPROVE_CHECK_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
-                Log.d("ApproveOD - getDetails", "Response is : " + response);
+                Log.d("ApproveOD - getDetails", "Response from GET DETAILS : " + response);
                 info = response;
                 ODsplit = info.split("\n");
 
@@ -172,12 +155,12 @@ public class ApproveOD extends AppCompatActivity {
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-    private int Approve(final String n){
+    private void Approve(final String n){
         StringRequest request = new StringRequest(Request.Method.POST,Constants.UPDATE_OD_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Response is : " + response);
+                Log.d(TAG, "Response from APPROVE OD : " + response);
                 res = response;
             }
         }, new Response.ErrorListener() {
@@ -197,21 +180,5 @@ public class ApproveOD extends AppCompatActivity {
         };
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
 
-        try {
-            TimeUnit.MINUTES.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        if(res.equals("Approved"))
-        {
-            Log.d(TAG, "Return approved flag.");
-            return 1;
-        }
-        else
-        {
-            Log.d(TAG, "Return error flag.");
-            return -1;
-        }
     }
 }
