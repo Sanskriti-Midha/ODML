@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +15,8 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_main" />
+            layout="@layout/toolbar_main" >
+        </include>
     </LinearLayout>
 
     <LinearLayout
@@ -61,24 +62,29 @@
         android:layout_height="wrap_content"
         app:errorEnabled="true">
 
-        <EditText
+        <TextView
             android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"/>
+            android:layout_height="40dp"
+            android:hint="Name"
+            android:textSize="18sp"
+            android:gravity="center_vertical"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/regnum_text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        android:gravity="center">
 
-        <EditText
+        <TextView
             android:id="@+id/regnum_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Register Number"/>
+            android:layout_height="40dp"
+            android:hint="Register Number"
+            android:textSize="18sp"
+            android:gravity="center_vertical"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -117,26 +123,63 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/attachCertificate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Attach Cetificate"
-        android:layout_gravity="end"
-        android:background="@drawable/shape_signup"
-        android:textColor="@color/colorPrimary"
-        android:textAllCaps="false"
-        />
+
+        <EditText
+            android:id="@+id/file_name_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="30dp"
+            android:hint="Enter file name" />
+
+        <Button
+            android:id="@+id/select_certificate_btn"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/shape_loginb"
+            android:fontFamily="sans-serif-thin"
+            android:text="Select"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/upload_certificate_btn"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/shape_loginb"
+            android:fontFamily="sans-serif-thin"
+            android:text="Upload"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="30dp" />
     </LinearLayout>
+
     <Button
         android:id="@+id/apply_Btn"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
         android:textColor="@color/white"
         android:background="@drawable/shape_loginb"
+        android:textSize="18sp"
+        android:layout_gravity="center"
         android:text="Apply"/>
 
-
-</RelativeLayout>
+</LinearLayout>

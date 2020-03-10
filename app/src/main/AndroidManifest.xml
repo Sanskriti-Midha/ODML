@@ -41,7 +41,6 @@
         </provider>
 
         <activity android:name=".Student_BaseActivity" />
-        <activity android:name=".GetCertificate" />
         <activity android:name=".AppForm" />
         <activity android:name=".StudentDashboard" />
     </application>

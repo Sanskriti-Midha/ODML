@@ -78,7 +78,6 @@ public class Student_BaseActivity extends AppCompatActivity {
                 i.putExtra("email",s);
                 break;
             case 2:
-                i = new Intent(this, AppForm.class);
                 break;
 
             default:
