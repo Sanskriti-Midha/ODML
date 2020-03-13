@@ -59,7 +59,10 @@ public class CheckStatus extends AppCompatActivity{
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
+    }
     private void checkApproval(final int listviewPos)
     {
         Log.d(TAG, "checkApproval() called");

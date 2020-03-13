@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/applyLeaveOption"
+        android:title="Apply Leave"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/checkStatusOption"
+        android:title="Check Status"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/logoutStudentOption"
+        android:title="Logout"
+        app:showAsAction="never"
+        />
+
+</menu>

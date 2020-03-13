@@ -1,13 +1,14 @@
 package com.example.sanskriti.odml;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,7 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StudentDashboard extends Student_BaseActivity {
+public class StudentDashboard extends AppCompatActivity {
 
     private String info;
     private String[] infoArray;
@@ -29,20 +30,60 @@ public class StudentDashboard extends Student_BaseActivity {
     private TextView regno;
     private TextView mail;
     private TextView number;
+    private androidx.appcompat.widget.Toolbar studentToolBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_student_dashboard, null, false);
-        mDrawerLayout.addView(contentView, 0);
+        setContentView(R.layout.activity_student_dashboard);
+//        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View contentView = inflater.inflate(R.layout.activity_student_dashboard, null, false);
+//        mDrawerLayout.addView(contentView, 0);
 
         name = findViewById(R.id.student_name);
         regno = findViewById(R.id.student_regnum);
         mail = findViewById(R.id.student_email);
         number = findViewById(R.id.student_phNo);
-
+        studentToolBar = findViewById(R.id.studentToolBar);
         intent = getIntent();
         email = intent.getStringExtra("email");
+
+        studentToolBar.inflateMenu(R.menu.menu_student);
+        studentToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId())
+                {
+                    case R.id.applyLeaveOption:
+                    {
+                        Log.d(TAG, "Clicked apply leave option");
+                        Intent i = new Intent(getApplicationContext(), AppForm.class);
+                        i.putExtra("email",email);
+                        startActivity(i);
+                        return true;
+                    }
+                    case R.id.checkStatusOption:
+                    {
+                        Log.d(TAG, "Clicked check status option");
+                        Intent i = new Intent(getApplicationContext(), CheckStatus.class);
+                        i.putExtra("email",email);
+                        startActivity(i);
+                        return true;
+                    }
+                    case R.id.logoutStudentOption:
+                    {
+                        Log.d(TAG, "Clicked logout option as student");
+                        Intent i = new Intent(getApplicationContext(), login.class);
+                        startActivity(i);
+                        return true;
+                    }
+                    default :
+                    {
+                        return false;
+                    }
+                }
+            }
+        });
+
         Log.d(TAG, "This is the mail recevied from login - "+email);
         StringRequest request = new StringRequest(Request.Method.POST,Constants.FETCH_DETAILS, new Response.Listener<String>() {
             @Override
@@ -80,5 +121,10 @@ public class StudentDashboard extends Student_BaseActivity {
         };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
     }
 }

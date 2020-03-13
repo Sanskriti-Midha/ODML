@@ -23,6 +23,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -47,7 +48,7 @@ import java.util.Map;
 
 import static java.lang.Boolean.FALSE;
 
-public class AppForm extends Student_BaseActivity {
+public class AppForm extends AppCompatActivity {
 
     private final Calendar myCalendar = Calendar.getInstance();
     private ToggleButton ml,od ;
@@ -60,7 +61,7 @@ public class AppForm extends Student_BaseActivity {
     private Button apply_Btn;
     private Intent intent;
     private String link,email;
-    private TextView go_home_button;
+    private TextView goHomeTextView;
     private String TAG = "AppForm";
     private Button select_certificate;
     private Button upload_certificate;
@@ -71,14 +72,12 @@ public class AppForm extends Student_BaseActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private Uri filePath;
+    private int from_date_flag=0, to_date_flag=0, filename_flag=0, upload_flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_app_form, null, false);
-        mDrawerLayout.addView(contentView, 0);
+        setContentView(R.layout.activity_app_form);
 
         intent = getIntent();
         link = intent.getStringExtra("link");
@@ -86,9 +85,10 @@ public class AppForm extends Student_BaseActivity {
 
         ml = findViewById(R.id.ML);
         od = findViewById(R.id.OD);
+        file_name=findViewById(R.id.file_name_EditText);
         name_EditText = findViewById(R.id.name_edit_text);
         regnum_EditText = findViewById(R.id.regnum_edit_text);
-        go_home_button = findViewById(R.id.go_home_button);
+        goHomeTextView = findViewById(R.id.goHomeTextView);
 
         fromDate = findViewById(R.id.from_date);
         toDate = findViewById(R.id.to_date);
@@ -118,6 +118,7 @@ public class AppForm extends Student_BaseActivity {
         });
 
         getValue();
+
 
         select_certificate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +157,7 @@ public class AppForm extends Student_BaseActivity {
             }
         });
 
-        go_home_button.setOnClickListener(new View.OnClickListener() {
+        goHomeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), StudentDashboard.class);
@@ -187,6 +188,10 @@ public class AppForm extends Student_BaseActivity {
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 //updateLabel(fromDate);
+                if(fromDate.getText()!=null)
+                {
+                    from_date_flag=1;
+                }
             }
         });
 
@@ -200,6 +205,11 @@ public class AppForm extends Student_BaseActivity {
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 //updateLabel(toDate);
+                //updateLabel(fromDate);
+                if(toDate.getText()!=null)
+                {
+                    to_date_flag=1;
+                }
             }
         });
 
@@ -207,9 +217,20 @@ public class AppForm extends Student_BaseActivity {
         apply_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Log.d("AppForm", "Apply button clicked");
-                    sendValue();
-                Toast.makeText(AppForm.this, "Values saved", Toast.LENGTH_SHORT).show();
+                    if(file_name.getText()!=null)
+                    {
+                        filename_flag=1;
+                    }
+                    if(filename_flag==1 && upload_flag==1 && from_date_flag==1 && to_date_flag==1)
+                    {
+                        Log.d("AppForm", "Apply button clicked");
+                        sendValue();
+                        Toast.makeText(AppForm.this, "Values saved", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(AppForm.this, "Provide all details needed for the od form", Toast.LENGTH_SHORT).show();
+                    }
             }
         });
 
@@ -254,7 +275,7 @@ public class AppForm extends Student_BaseActivity {
                             mDatabaseRef.child(uploadId).setValue(imgDetails);
                         }
                     });
-
+                    upload_flag=1;
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -297,7 +318,7 @@ public class AppForm extends Student_BaseActivity {
 
     private void getValue()
     {
-        Log.d("AppForm", "Reached sendValue()");
+        Log.d("AppForm", "Reached getValue()");
         StringRequest request = new StringRequest(Request.Method.POST,Constants.FETCH_DETAILS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -374,6 +395,11 @@ public class AppForm extends Student_BaseActivity {
             fromDate.setText(sdf.format(myCalendar.getTime()));
         else if (check == 1)
             toDate.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
     }
 }
 

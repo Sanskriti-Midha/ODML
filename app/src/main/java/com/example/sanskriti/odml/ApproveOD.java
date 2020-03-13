@@ -181,4 +181,8 @@ public class ApproveOD extends AppCompatActivity {
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
 
     }
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
+    }
 }

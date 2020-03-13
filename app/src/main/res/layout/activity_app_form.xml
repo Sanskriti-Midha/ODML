@@ -7,17 +7,23 @@
     android:orientation="vertical"
     tools:context=".AppForm">
 
-    <LinearLayout
-        android:id="@+id/container_toolbar"
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:background="#8a0e29"
+        >
+        <TextView
+            android:id="@+id/goHomeTextView"
+            android:layout_marginLeft="325dp"
+            android:layout_width="75dp"
+            android:layout_height="35dp"
+            android:text="Home"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:background="@drawable/go_home_button"
+            />
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_main" >
-        </include>
-    </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_below="@+id/container_toolbar"
