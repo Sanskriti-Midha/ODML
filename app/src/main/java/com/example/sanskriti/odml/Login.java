@@ -18,7 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     Button login_b;
     private String email,password;
