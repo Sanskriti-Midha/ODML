@@ -7,14 +7,15 @@
     android:orientation="vertical"
     tools:context=".AppForm">
 
-    <androidx.appcompat.widget.Toolbar
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#8a0e29"
+        android:gravity="center_vertical|end"
         >
         <TextView
             android:id="@+id/goHomeTextView"
-            android:layout_marginLeft="325dp"
+            android:layout_marginEnd="7dp"
             android:layout_width="75dp"
             android:layout_height="35dp"
             android:text="Home"
@@ -23,7 +24,7 @@
             android:background="@drawable/go_home_button"
             />
 
-    </androidx.appcompat.widget.Toolbar>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_below="@+id/container_toolbar"

@@ -26,6 +26,9 @@ public class FacultyDashboard extends AppCompatActivity {
         facultyToolBar = findViewById(R.id.facultyToolBar);
         facultyToolBar.inflateMenu(R.menu.menu_faculty);
 
+        intent = getIntent();
+        email = intent.getStringExtra("email");
+
         facultyToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

@@ -80,7 +80,6 @@ public class AppForm extends AppCompatActivity {
         setContentView(R.layout.activity_app_form);
 
         intent = getIntent();
-        link = intent.getStringExtra("link");
         email = intent.getStringExtra("email");
 
         ml = findViewById(R.id.ML);
@@ -99,7 +98,6 @@ public class AppForm extends AppCompatActivity {
         upload_certificate = findViewById(R.id.upload_certificate_btn);
 
         progress_bar = findViewById(R.id.progress_bar);
-        file_name = findViewById(R.id.file_name_EditText);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Uploads");
@@ -161,6 +159,7 @@ public class AppForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), StudentDashboard.class);
+                i.putExtra("email", email);
                 startActivity(i);
             }
         });
@@ -191,6 +190,7 @@ public class AppForm extends AppCompatActivity {
                 if(fromDate.getText()!=null)
                 {
                     from_date_flag=1;
+                    Log.d(TAG, "from_date_flag = 1 ,"+fromDate.getText().toString() );
                 }
             }
         });
@@ -209,6 +209,7 @@ public class AppForm extends AppCompatActivity {
                 if(toDate.getText()!=null)
                 {
                     to_date_flag=1;
+                    Log.d(TAG, "to_date_flag = 1 ,"+toDate.getText().toString() );
                 }
             }
         });
@@ -220,6 +221,7 @@ public class AppForm extends AppCompatActivity {
                     if(file_name.getText()!=null)
                     {
                         filename_flag=1;
+                        Log.d(TAG, "file_name_flag = 1 ,"+file_name.getText().toString() );
                     }
                     if(filename_flag==1 && upload_flag==1 && from_date_flag==1 && to_date_flag==1)
                     {
@@ -267,15 +269,16 @@ public class AppForm extends AppCompatActivity {
                     reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Log.d("GetCertificate", "onSuccess: uri= "+ uri.toString());
+                            Log.d(TAG, "onSuccess: uri= "+ uri.toString());
                             image_download_uri = uri.toString();
-                            imgDetails.put("Download",uri.toString());
+                            imgDetails.put("Download",image_download_uri);
 
                             String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child(uploadId).setValue(imgDetails);
                         }
                     });
                     upload_flag=1;
+                    Log.d(TAG, "File uploaded successfuly, upload_flag = 1");
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -380,7 +383,7 @@ public class AppForm extends AppCompatActivity {
                 params.put("rollnumber",regnum_EditText.getText().toString().trim());
                 params.put("from_date",fromDate.getText().toString().trim());
                 params.put("to_date",toDate.getText().toString().trim());
-                params.put("certificate_link",link);
+                params.put("certificate_link",image_download_uri);
 
                 return params;
             }
