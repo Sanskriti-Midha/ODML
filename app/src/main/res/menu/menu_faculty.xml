@@ -6,6 +6,11 @@
         android:title="Approve OD"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/showApprovedOdsOption"
+        android:title="Show Approved ODs"
+        app:showAsAction="never"
+        />
 
     <item
         android:id="@+id/logoutFacultyOption"

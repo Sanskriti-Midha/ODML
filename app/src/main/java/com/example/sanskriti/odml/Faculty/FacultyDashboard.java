@@ -1,4 +1,4 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Faculty;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.sanskriti.odml.Authentication.Login;
+import com.example.sanskriti.odml.R;
 
 public class FacultyDashboard extends AppCompatActivity {
 
@@ -52,7 +55,7 @@ public class FacultyDashboard extends AppCompatActivity {
                     }
                     case R.id.logoutFacultyOption:
                     {
-                        Intent i = new Intent(getApplicationContext(), login.class);
+                        Intent i = new Intent(getApplicationContext(), Login.class);
                         startActivity(i);
                         return true;
                     }

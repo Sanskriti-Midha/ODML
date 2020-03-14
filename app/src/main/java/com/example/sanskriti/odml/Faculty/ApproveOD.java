@@ -1,4 +1,4 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Faculty;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,6 +21,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.sanskriti.odml.Stuff.Constants;
+import com.example.sanskriti.odml.Stuff.MySingleton;
+import com.example.sanskriti.odml.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

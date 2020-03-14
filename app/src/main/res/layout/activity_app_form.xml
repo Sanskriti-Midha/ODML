@@ -5,26 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AppForm">
+    tools:context=".Student.AppForm">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#8a0e29"
-        android:gravity="center_vertical|end"
-        >
-        <TextView
-            android:id="@+id/goHomeTextView"
-            android:layout_marginEnd="7dp"
-            android:layout_width="75dp"
-            android:layout_height="35dp"
-            android:text="Home"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:background="@drawable/go_home_button"
-            />
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#8a0e29"
+    android:gravity="center_vertical|end"
+    >
+    <TextView
+        android:id="@+id/goHomeTextView_AppForm"
+        android:layout_marginEnd="7dp"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:text="Home"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/go_home_button"
+        />
 
-    </LinearLayout>
+</LinearLayout>
 
     <LinearLayout
         android:layout_below="@+id/container_toolbar"
