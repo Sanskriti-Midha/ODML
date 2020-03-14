@@ -1,4 +1,4 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Stuff;
 
 public class DataModel {
     public int icon;

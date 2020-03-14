@@ -1,4 +1,4 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Authentication;
 
 import android.content.Intent;
 
@@ -14,11 +14,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.sanskriti.odml.Faculty.FacultyDashboard;
+import com.example.sanskriti.odml.R;
+import com.example.sanskriti.odml.Student.StudentDashboard;
+import com.example.sanskriti.odml.Stuff.Constants;
+import com.example.sanskriti.odml.Stuff.MySingleton;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     Button login_b;
     private String email,password;
@@ -45,14 +50,14 @@ public class login extends AppCompatActivity {
 
     private void login() {
 
-        StringRequest request = new StringRequest(Request.Method.POST,Constants.LOGIN_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constants.LOGIN_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(),response.toString(), Toast.LENGTH_LONG).show();
                 System.out.println("Response is : " + response.toString());
                 if(response.contains("Login Successful"))
                 {
-                    Intent i = new Intent(login.this, StudentDashboard.class);
+                    Intent i = new Intent(Login.this, StudentDashboard.class);
                     i.putExtra("email",email);
                     startActivity(i);
 
@@ -60,7 +65,7 @@ public class login extends AppCompatActivity {
                 else if(response.contains("Faculty"))
                 {
 
-                    Intent i = new Intent(login.this, FacultyDashboard.class);
+                    Intent i = new Intent(Login.this, FacultyDashboard.class);
                     i.putExtra("email",email);
                     startActivity(i);
                 }
