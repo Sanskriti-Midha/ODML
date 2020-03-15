@@ -24,7 +24,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -35,13 +34,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LoginTest2 {
+public class LoginTest {
 
     @Rule
     public ActivityTestRule<Login> mActivityTestRule = new ActivityTestRule<>(Login.class);
 
     @Test
-    public void loginTest2() {
+    public void loginTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.EmailEditText),
                         childAtPosition(
@@ -63,7 +62,7 @@ public class LoginTest2 {
         appCompatEditText2.perform(replaceText("cse17201"), closeSoftKeyboard());
 
         ViewInteraction appCompatCheckBox = onView(
-                allOf(withText("Remember Me"),
+                allOf(withId(R.id.rememberCheckBox), withText("Remember Me"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -71,6 +70,15 @@ public class LoginTest2 {
                                 3),
                         isDisplayed()));
         appCompatCheckBox.perform(click());
+
+        ViewInteraction imageView = onView(
+                allOf(childAtPosition(
+                        childAtPosition(
+                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                0),
+                        0),
+                        isDisplayed()));
+        imageView.check(matches(isDisplayed()));
 
         ViewInteraction editText = onView(
                 allOf(withId(R.id.EmailEditText), withText("CB.EN.U4CSE17201"),
@@ -93,23 +101,14 @@ public class LoginTest2 {
         editText2.check(matches(withText("••••••••")));
 
         ViewInteraction checkBox = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                0),
-                        3),
-                        isDisplayed()));
-        checkBox.check(matches(isDisplayed()));
-
-        ViewInteraction textView = onView(
-                allOf(withText("Forgot Password"),
+                allOf(withId(R.id.rememberCheckBox),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                         0),
-                                4),
+                                3),
                         isDisplayed()));
-        textView.check(matches(isDisplayed()));
+        checkBox.check(matches(isDisplayed()));
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.login_button),
@@ -117,19 +116,9 @@ public class LoginTest2 {
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                         0),
-                                5),
+                                4),
                         isDisplayed()));
         button.check(matches(isDisplayed()));
-
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.login_button), withText("Log In"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        0),
-                                5),
-                        isDisplayed()));
-        appCompatButton.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
