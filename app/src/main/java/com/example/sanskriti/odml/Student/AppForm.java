@@ -397,6 +397,17 @@ public class AppForm extends AppCompatActivity {
 
                 System.out.println("Response is : " + response.toString());
 
+                if(response.equals("Record added successfully"))
+                {
+                    Intent i = new Intent(getApplicationContext(), StudentDashboard.class);
+                    i.putExtra("email", email);
+                    startActivity(i);
+                }
+                else
+                {
+                    Toast.makeText(AppForm.this, "Record insertion failed.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
