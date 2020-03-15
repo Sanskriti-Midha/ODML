@@ -13,4 +13,5 @@ public class Constants {
     public static final String DECLINE_OD_URL= DB_URL+"decline_od.php";
     public static final String STUDENT_ACKNOWLEDGEMENT_URL= DB_URL+"student_acknowledgement.php";
     public static final String SHOW_APPROVED_ODS_URL= DB_URL+"show_approved_ods.php";
+    public static final String FACULTY_GET_OD_URL = DB_URL+"faculty_get_od.php";
 }
