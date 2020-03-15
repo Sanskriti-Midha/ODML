@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -54,6 +55,7 @@ public class AppForm extends AppCompatActivity {
 
     private final Calendar myCalendar = Calendar.getInstance();
     private ToggleButton ml,od ;
+    private int ml_flag=0, od_flag=0;
     private RadioGroup leave_type;
     private EditText fromDate, toDate;
     private TextView name_EditText, regnum_EditText;
@@ -74,6 +76,7 @@ public class AppForm extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private Uri filePath;
+    private String type;
     private int from_date_flag=0, to_date_flag=0, filename_flag=0, upload_flag=0;
 
     @Override
@@ -128,6 +131,28 @@ public class AppForm extends AppCompatActivity {
             }
         });
 
+        ml.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    Log.d(TAG, "ML Checked");
+                    ml_flag=1;
+                    od_flag=0;
+                }
+            }
+        });
+        od.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    Log.d(TAG, "OD Checked");
+                    ml_flag=0;
+                    od_flag=1;
+                }
+            }
+        });
         upload_certificate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,10 +251,13 @@ public class AppForm extends AppCompatActivity {
                         filename_flag=1;
                         Log.d(TAG, "file_name_flag = 1 ,"+file_name.getText().toString() );
                     }
-                    if(filename_flag==1 && upload_flag==1 && from_date_flag==1 && to_date_flag==1)
+                    if(filename_flag==1 && upload_flag==1 && from_date_flag==1 && to_date_flag==1 && (ml_flag==1||od_flag==1))
                     {
                         Log.d("AppForm", "Apply button clicked");
-                        sendValue();
+                        if(ml_flag==1 && od_flag==0)
+                            sendValue("ml");
+                        else if(ml_flag==0 && od_flag==1)
+                            sendValue("od");
                         Toast.makeText(AppForm.this, "Values saved", Toast.LENGTH_SHORT).show();
                     }
                     else
@@ -360,9 +388,9 @@ public class AppForm extends AppCompatActivity {
 
     }
 
-    private void sendValue()
+    private void sendValue(final String type)
     {
-        Log.d("AppForm", "Reached sendValue()");
+        Log.d("AppForm", "Reached sendValue(), type - "+type);
         StringRequest request = new StringRequest(Request.Method.POST,Constants.WRITE_DETAILS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -387,6 +415,8 @@ public class AppForm extends AppCompatActivity {
                 params.put("from_date",fromDate.getText().toString().trim());
                 params.put("to_date",toDate.getText().toString().trim());
                 params.put("certificate_link",image_download_uri);
+                params.put("type",type);
+
 
                 return params;
             }

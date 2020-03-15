@@ -12,6 +12,11 @@
         app:showAsAction="never"
         />
     <item
+        android:id="@+id/showApprovedOdsOption"
+        android:title="Approved ODs"
+        app:showAsAction="never"
+        />
+    <item
         android:id="@+id/logoutStudentOption"
         android:title="Logout"
         app:showAsAction="never"

@@ -38,6 +38,8 @@ public class CheckStatus extends AppCompatActivity{
     private ListView mylistview;
     private HashMap<String,String[]> details;
     private ArrayList<String> names;
+    private ArrayList<String> fromdate;
+    private ArrayList<String> todate;
     private String[] infoSplit;
     private String res ="0";
     private int ODapproved = 0;
@@ -52,6 +54,8 @@ public class CheckStatus extends AppCompatActivity{
         intent = getIntent();
         email = intent.getStringExtra("email");
         details = new HashMap<>();
+        fromdate = new ArrayList<>();
+        todate = new ArrayList<>();
         mylistview = findViewById(R.id.od_list);
         goHomeTextView = findViewById(R.id.goHomeTextView_CheckStatus);
 
@@ -72,7 +76,7 @@ public class CheckStatus extends AppCompatActivity{
         mylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                checkApproval(position);
+                checkApproval(position,fromdate.get(position),todate.get(position));
             }
         });
 
@@ -82,10 +86,10 @@ public class CheckStatus extends AppCompatActivity{
     public void onBackPressed() {
         this.moveTaskToBack(true);
     }
-    private void checkApproval(final int listviewPos)
+    private void checkApproval(final int listviewPos, final String fromdate, final String todate)
     {
         Log.d(TAG, "checkApproval() called");
-        final int[] val = new int[1];
+
         StringRequest request = new StringRequest(Request.Method.POST, Constants.CHECK_APPROVE_STATUS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -105,7 +109,7 @@ public class CheckStatus extends AppCompatActivity{
                         dialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                userAcknowledge(1); //User has been notified of approval
+                                userAcknowledge(1,fromdate,todate); //User has been notified of approval
                                 Log.d(TAG, "Removed OD details from the database");
                                 names.remove(listviewPos);  //Removing the data from the listview data array
                                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
@@ -140,7 +144,7 @@ public class CheckStatus extends AppCompatActivity{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Removing OD details from database
-                                userAcknowledge(0); //User has been notified of decline.
+                                userAcknowledge(0,fromdate,todate); //User has been notified of decline.
                                 Log.d(TAG, "Removed OD details from the database");
                                 //Removing the data from the listview data array
                                 names.remove(listviewPos);
@@ -169,6 +173,8 @@ public class CheckStatus extends AppCompatActivity{
                 Map <String,String> params  = new HashMap<String,String>();
 
                 params.put("rollnumber",email);
+                params.put("fromdate",fromdate);
+                params.put("todate",todate);
                 //params.put("password",password);
                 return params;
             }
@@ -200,22 +206,14 @@ public class CheckStatus extends AppCompatActivity{
 //        }
 //    }
 
-    private void userAcknowledge(final int approved)
+    private void userAcknowledge(final int approved, final String fromdate, final String todate)
     {
         StringRequest request = new StringRequest(Request.Method.POST,Constants.STUDENT_ACKNOWLEDGEMENT_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
-                Log.d("CheckStatus", "Response from DELETE OD : " + response);
+                Log.d("CheckStatus", "Response from Student Acknowledgement : " + response);
                 res = response;
-                if(res.equals("Deleted"))
-                {
-                    Log.d(TAG, "OD deleted.");
-                }
-                else
-                {
-                    Log.d(TAG, "OD delete failed.");
-                }
 
             }
         }, new Response.ErrorListener() {
@@ -232,6 +230,10 @@ public class CheckStatus extends AppCompatActivity{
 
                 params.put("rollnumber",email);
                 params.put("flag",""+approved);
+                params.put("fromdate",""+fromdate);
+                params.put("todate",""+todate);
+
+
                 //params.put("password",password);
 
                 return params;
@@ -241,24 +243,34 @@ public class CheckStatus extends AppCompatActivity{
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
     private void getDetails(){
-        StringRequest request = new StringRequest(Request.Method.POST,Constants.APPROVE_CHECK_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,Constants.APPROVE_CHECK_URL2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
                 Log.d("CheckStatus", "Response from GET DETAILS : " + response);
 
                 info = response;
-                ODsplit = info.split("\n");
-                names = new ArrayList<>();
-                for(int i=0; i<ODsplit.length; i++)
+                if(!info.equals("ERROR OCCURED"))
                 {
-                    String[] temp = ODsplit[i].split(",");
-                    names.add("From :"+temp[2]+" , To: "+temp[3]);
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
-                        android.R.layout.simple_list_item_1, names);
+                    ODsplit = info.split("\n");
+                    names = new ArrayList<>();
+                    for(int i=0; i<ODsplit.length; i++)
+                    {
+                        String[] temp = ODsplit[i].split(",");
+                        names.add("From :"+temp[2]+" , To: "+temp[3]);
+                        fromdate.add(temp[2]);
+                        todate.add(temp[3]);
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
+                            android.R.layout.simple_list_item_1, names);
 
-                mylistview.setAdapter(adapter);
+                    mylistview.setAdapter(adapter);
+                }
+                else
+                {
+                    Toast.makeText(CheckStatus.this, "No pending applied ods", Toast.LENGTH_SHORT).show();
+                }
+                
             }
         }, new Response.ErrorListener() {
             @Override
@@ -272,7 +284,7 @@ public class CheckStatus extends AppCompatActivity{
             protected Map<String, String> getParams()    throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
 
-                params.put("email",email);
+                params.put("rollnumber",email);
                 //params.put("password",password);
 
                 return params;

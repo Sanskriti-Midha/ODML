@@ -48,7 +48,7 @@
                 android:background="@drawable/toggle_cstyle"
                 android:textOn="Medical Leave"
                 android:textOff="Medical Leave"
-                android:checked="true"
+
                 android:textColor="@color/togglecolor"
                 android:layout_weight="0.5"
                 />

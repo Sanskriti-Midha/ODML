@@ -75,6 +75,14 @@ public class StudentDashboard extends AppCompatActivity {
                         startActivity(i);
                         return true;
                     }
+                    case R.id.showApprovedOdsOption:
+                    {
+                        Log.d(TAG, "Clicked show-approved-ods option");
+                        Intent i = new Intent(getApplicationContext(), ShowMyOds.class);
+                        i.putExtra("email",email);
+                        startActivity(i);
+                        return true;
+                    }
                     case R.id.logoutStudentOption:
                     {
                         Log.d(TAG, "Clicked logout option as student");

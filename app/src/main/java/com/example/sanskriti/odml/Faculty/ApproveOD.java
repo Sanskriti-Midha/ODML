@@ -37,6 +37,8 @@ public class ApproveOD extends AppCompatActivity {
     private String[] infoSplit;
     private String res = "";
     private ArrayList<String> names_od;
+    private ArrayList<String> from_date;
+    private ArrayList<String> to_date;
     private String TAG = "ApproveOD";
     private TextView goHomeTextView;
     private String email;
@@ -52,6 +54,8 @@ public class ApproveOD extends AppCompatActivity {
 
         od_list = findViewById(R.id.od_list);
         names_od = new ArrayList<>();
+        from_date = new ArrayList<>();
+        to_date = new ArrayList<>();
         getEmail = getIntent();
         odDetails = new ArrayList<>();
         facultyEmail = getEmail.getStringExtra("email");
@@ -79,7 +83,7 @@ public class ApproveOD extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, "Approve button clicked");
-                        Approve(n);
+                        Approve(names_od.get(position), from_date.get(position), to_date.get(position));
                         names_od.remove(position); //Removing this od request from array
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                                 android.R.layout.simple_list_item_1, names_od);
@@ -95,7 +99,7 @@ public class ApproveOD extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, "Show details button clicked");
-                        getDetailsOfOD(n);
+                        getDetailsOfOD(names_od.get(position), from_date.get(position), to_date.get(position));
                         dialog.dismiss();
                     }
                 });
@@ -103,7 +107,7 @@ public class ApproveOD extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, "Decline button clicked");
-                        declineOD(n);
+                        declineOD(names_od.get(position), from_date.get(position), to_date.get(position));
                         names_od.remove(position); //Removing this od request from array
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                                 android.R.layout.simple_list_item_1, names_od);
@@ -137,7 +141,34 @@ public class ApproveOD extends AppCompatActivity {
             }
         });
     }
-    private void getDetailsOfOD(final String email)
+
+//    private void AddToJaba(final String rollnumber)
+//    {
+//        StringRequest request = new StringRequest(Request.Method.POST,Constants.UPDATE_OD_URL, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
+//                Log.d(TAG, "Response from APPROVE OD : " + response);
+//                res = response;
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+//                System.out.println("Error is " + error.toString());
+//            }
+//        })
+//        {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map <String,String> params  = new HashMap<String,String>();
+//                params.put("rollnumber", rollnumber);
+//                return params;
+//            }
+//        };
+//        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+//    }
+    private void getDetailsOfOD(final String rollnumber, final String fromdate, final String todate)
     {
         StringRequest request = new StringRequest(Request.Method.POST, Constants.APPROVE_CHECK_URL, new Response.Listener<String>() {
             @Override
@@ -150,11 +181,12 @@ public class ApproveOD extends AppCompatActivity {
                     odDetails.add(ODsplit[2]);
                     odDetails.add(ODsplit[3]);
                     odDetails.add(ODsplit[4]);
+                    odDetails.add(ODsplit[5]);
 
                 AlertDialog.Builder detailsReceived = new AlertDialog.Builder(ApproveOD.this);
                 detailsReceived.setCancelable(false);
                 detailsReceived.setTitle("OD Details");
-                detailsReceived.setMessage("From: "+odDetails.get(0)+"\nTo: "+odDetails.get(1));
+                detailsReceived.setMessage("Type: "+odDetails.get(3)+"\nFrom: "+odDetails.get(0)+"\nTo: "+odDetails.get(1));
                 detailsReceived.setPositiveButton("Visual Proof", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -182,14 +214,16 @@ public class ApproveOD extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
-                params.put("email", email);
+                params.put("rollnumber", rollnumber);
+                params.put("fromdate", fromdate);
+                params.put("todate", todate);
                 return params;
             }
         };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-    private void declineOD(final String n)
+    private void declineOD(final String rollnumber, final String fromdate, final String todate)
     {
         StringRequest request = new StringRequest(Request.Method.POST,Constants.DECLINE_OD_URL, new Response.Listener<String>() {
             @Override
@@ -210,7 +244,9 @@ public class ApproveOD extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
-                params.put("rollnumber", n);
+                params.put("rollnumber", rollnumber);
+                params.put("fromdate", fromdate);
+                params.put("todate", todate);
                 return params;
             }
         };
@@ -224,18 +260,27 @@ public class ApproveOD extends AppCompatActivity {
                 Log.d("ApproveOD - getDetails", "Response from GET DETAILS : " + response);
                 info = response;
                 ODsplit = info.split("\n");
-
-                for(int i=0; i<ODsplit.length; i++)
+                if(!info.equals("ERROR OCCURED"))
                 {
-                    String[] temp = ODsplit[i].split(",");
-                    names_od.add(temp[1]);
-                    Log.d(TAG, "Getting ods - roll number : "+temp[1]);
+                    for(int i=0; i<ODsplit.length; i++)
+                    {
+                        String[] temp = ODsplit[i].split(",");
+                        names_od.add(temp[1]);
+                        from_date.add(temp[2]);
+                        to_date.add(temp[3]);
+                        Log.d(TAG, "Getting ods - roll number : "+temp[1]);
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                            android.R.layout.simple_list_item_1, names_od);
+
+                    od_list.setAdapter(adapter);
                 }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-                        android.R.layout.simple_list_item_1, names_od);
-
-                od_list.setAdapter(adapter);
+                else
+                {
+                    Toast.makeText(ApproveOD.this, "No ODs to review", Toast.LENGTH_SHORT).show();
+                }
+                
             }
         }, new Response.ErrorListener() {
             @Override
@@ -254,7 +299,7 @@ public class ApproveOD extends AppCompatActivity {
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-    private void Approve(final String n){
+    private void Approve(final String rollnumber, final String fromdate, final String todate){
         StringRequest request = new StringRequest(Request.Method.POST,Constants.UPDATE_OD_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -273,7 +318,9 @@ public class ApproveOD extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
-                params.put("rollnumber", n);
+                params.put("rollnumber", rollnumber);
+                params.put("fromdate", fromdate);
+                params.put("todate", todate);
                 return params;
             }
         };
