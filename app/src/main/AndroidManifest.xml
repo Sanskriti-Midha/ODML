@@ -20,10 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CheckStatus"></activity>
-        <activity android:name=".ApproveOD" />
-        <activity android:name=".FacultyDashboard" />
-        <activity android:name=".login">
+        <activity android:name=".Student.ShowMyOds"></activity>
+        <activity android:name=".Faculty.ShowApprovedOds" />
+        <activity android:name=".Student.CheckStatus" />
+        <activity android:name=".Faculty.ApproveOD" />
+        <activity android:name=".Faculty.FacultyDashboard" />
+        <activity android:name=".Authentication.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,9 +43,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".Student_BaseActivity" />
-        <activity android:name=".AppForm" />
-        <activity android:name=".StudentDashboard" />
+        <activity android:name=".Student.AppForm" />
+        <activity android:name=".Student.StudentDashboard" />
     </application>
 
 </manifest>

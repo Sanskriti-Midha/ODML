@@ -1,15 +1,14 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Student;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -30,6 +29,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.sanskriti.odml.Stuff.Constants;
+import com.example.sanskriti.odml.Stuff.MySingleton;
+import com.example.sanskriti.odml.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -78,6 +80,7 @@ public class AppForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_form);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         intent = getIntent();
         email = intent.getStringExtra("email");
@@ -87,7 +90,7 @@ public class AppForm extends AppCompatActivity {
         file_name=findViewById(R.id.file_name_EditText);
         name_EditText = findViewById(R.id.name_edit_text);
         regnum_EditText = findViewById(R.id.regnum_edit_text);
-        goHomeTextView = findViewById(R.id.goHomeTextView);
+        goHomeTextView = findViewById(R.id.goHomeTextView_AppForm);
 
         fromDate = findViewById(R.id.from_date);
         toDate = findViewById(R.id.to_date);
@@ -322,7 +325,7 @@ public class AppForm extends AppCompatActivity {
     private void getValue()
     {
         Log.d("AppForm", "Reached getValue()");
-        StringRequest request = new StringRequest(Request.Method.POST,Constants.FETCH_DETAILS, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constants.FETCH_DETAILS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 

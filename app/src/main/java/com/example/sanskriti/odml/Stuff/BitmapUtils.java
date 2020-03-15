@@ -1,4 +1,4 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Stuff;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import androidx.core.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.example.sanskriti.odml.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

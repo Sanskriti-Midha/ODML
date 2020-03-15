@@ -1,15 +1,18 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Student;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -17,6 +20,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.sanskriti.odml.Stuff.Constants;
+import com.example.sanskriti.odml.Stuff.MySingleton;
+import com.example.sanskriti.odml.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,16 +41,29 @@ public class CheckStatus extends AppCompatActivity{
     private String[] infoSplit;
     private String res ="0";
     private int ODapproved = 0;
+    private TextView goHomeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_status);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         intent = getIntent();
         email = intent.getStringExtra("email");
         details = new HashMap<>();
         mylistview = findViewById(R.id.od_list);
+        goHomeTextView = findViewById(R.id.goHomeTextView_CheckStatus);
+
+        goHomeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), StudentDashboard.class);
+                i.putExtra("email", email);
+                startActivity(i);
+            }
+        });
+
 
         System.out.println("This is the email from intent - "+email);
 
@@ -67,7 +86,7 @@ public class CheckStatus extends AppCompatActivity{
     {
         Log.d(TAG, "checkApproval() called");
         final int[] val = new int[1];
-        StringRequest request = new StringRequest(Request.Method.POST,Constants.CHECK_APPROVE_STATUS_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constants.CHECK_APPROVE_STATUS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
@@ -86,7 +105,7 @@ public class CheckStatus extends AppCompatActivity{
                         dialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                closeOD(); //Removing OD details from database
+                                userAcknowledge(1); //User has been notified of approval
                                 Log.d(TAG, "Removed OD details from the database");
                                 names.remove(listviewPos);  //Removing the data from the listview data array
                                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
@@ -121,7 +140,7 @@ public class CheckStatus extends AppCompatActivity{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Removing OD details from database
-                                closeOD();
+                                userAcknowledge(0); //User has been notified of decline.
                                 Log.d(TAG, "Removed OD details from the database");
                                 //Removing the data from the listview data array
                                 names.remove(listviewPos);
@@ -181,9 +200,9 @@ public class CheckStatus extends AppCompatActivity{
 //        }
 //    }
 
-    private void closeOD()
+    private void userAcknowledge(final int approved)
     {
-        StringRequest request = new StringRequest(Request.Method.POST,Constants.DELETE_OD_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,Constants.STUDENT_ACKNOWLEDGEMENT_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
@@ -211,7 +230,8 @@ public class CheckStatus extends AppCompatActivity{
             protected Map<String, String> getParams()    throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
 
-                params.put("email",email);
+                params.put("rollnumber",email);
+                params.put("flag",""+approved);
                 //params.put("password",password);
 
                 return params;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Faculty.ApproveOD"
+    tools:context=".Faculty.ShowApprovedOds"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:gravity="center_vertical|end"
         >
         <TextView
-            android:id="@+id/goHomeTextView_ApproveOD"
+            android:id="@+id/goHomeTextView_ShowMyOds"
             android:layout_marginEnd="7dp"
             android:layout_width="75dp"
             android:layout_height="35dp"
@@ -25,13 +25,22 @@
             />
 
     </LinearLayout>
-    <ListView
-        android:id="@+id/od_list"
+    <Button
+        android:id="@+id/searchOdsBtn_Student"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="Search"
+        android:fontFamily="sans-serif-thin"
+        android:textSize="14sp"/>
+
+
+    <ListView
+        android:id="@+id/showOdsListView_Student"
+        android:padding="20dp"
         android:layout_marginBottom="20dp"
-        android:padding="5dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+
 </LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".StudentDashboard">
+    tools:context=".Student.StudentDashboard">
 
     <!--<LinearLayout-->
         <!--android:id="@+id/container_toolbar"-->

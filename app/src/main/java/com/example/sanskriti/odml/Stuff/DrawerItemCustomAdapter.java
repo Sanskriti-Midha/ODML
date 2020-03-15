@@ -1,4 +1,4 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Stuff;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.sanskriti.odml.R;
 
 public class DrawerItemCustomAdapter extends ArrayAdapter<DataModel> {
 

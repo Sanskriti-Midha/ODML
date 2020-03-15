@@ -1,6 +1,7 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Student;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +16,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.sanskriti.odml.Authentication.Login;
+import com.example.sanskriti.odml.Stuff.Constants;
+import com.example.sanskriti.odml.Stuff.MySingleton;
+import com.example.sanskriti.odml.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +40,7 @@ public class StudentDashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_dashboard);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        View contentView = inflater.inflate(R.layout.activity_student_dashboard, null, false);
 //        mDrawerLayout.addView(contentView, 0);
@@ -72,7 +78,7 @@ public class StudentDashboard extends AppCompatActivity {
                     case R.id.logoutStudentOption:
                     {
                         Log.d(TAG, "Clicked logout option as student");
-                        Intent i = new Intent(getApplicationContext(), login.class);
+                        Intent i = new Intent(getApplicationContext(), Login.class);
                         startActivity(i);
                         return true;
                     }
@@ -84,8 +90,8 @@ public class StudentDashboard extends AppCompatActivity {
             }
         });
 
-        Log.d(TAG, "This is the mail recevied from login - "+email);
-        StringRequest request = new StringRequest(Request.Method.POST,Constants.FETCH_DETAILS, new Response.Listener<String>() {
+        Log.d(TAG, "This is the mail recevied from Login - "+email);
+        StringRequest request = new StringRequest(Request.Method.POST, Constants.FETCH_DETAILS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();

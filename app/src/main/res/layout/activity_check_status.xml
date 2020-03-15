@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CheckStatus"
+    tools:context=".Student.CheckStatus"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,7 @@
         android:background="#8a0e29"
         >
         <TextView
-            android:id="@+id/goHomeTextView"
+            android:id="@+id/goHomeTextView_CheckStatus"
             android:layout_marginLeft="325dp"
             android:layout_width="75dp"
             android:layout_height="35dp"

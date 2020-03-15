@@ -1,12 +1,16 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Faculty;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.sanskriti.odml.Authentication.Login;
+import com.example.sanskriti.odml.R;
 
 public class FacultyDashboard extends AppCompatActivity {
 
@@ -20,6 +24,7 @@ public class FacultyDashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faculty_dashboard);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        View contentView = inflater.inflate(R.layout.activity_faculty_dashboard, null, false);
 //        mDrawerLayout.addView(contentView, 0);
@@ -37,12 +42,20 @@ public class FacultyDashboard extends AppCompatActivity {
                     case R.id.approveOdOption:
                     {
                         Intent i = new Intent(getApplicationContext(), ApproveOD.class);
+                        i.putExtra("email",email);
+                        startActivity(i);
+                        return true;
+                    }
+                    case R.id.showApprovedOdsOption:
+                    {
+                        Intent i = new Intent(getApplicationContext(), ShowApprovedOds.class);
+                        i.putExtra("email",email);
                         startActivity(i);
                         return true;
                     }
                     case R.id.logoutFacultyOption:
                     {
-                        Intent i = new Intent(getApplicationContext(), login.class);
+                        Intent i = new Intent(getApplicationContext(), Login.class);
                         startActivity(i);
                         return true;
                     }

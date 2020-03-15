@@ -1,4 +1,4 @@
-package com.example.sanskriti.odml;
+package com.example.sanskriti.odml.Stuff;
 
 import android.content.Context;
 import android.graphics.Bitmap;
