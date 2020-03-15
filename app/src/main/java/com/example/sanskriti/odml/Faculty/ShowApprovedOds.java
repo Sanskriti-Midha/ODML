@@ -3,6 +3,7 @@ package com.example.sanskriti.odml.Faculty;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +46,8 @@ public class ShowApprovedOds extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_approved_ods);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         getEmail = getIntent();
         roll = new ArrayList<>();
         fromdate = new ArrayList<>();
@@ -71,7 +74,7 @@ public class ShowApprovedOds extends AppCompatActivity {
             public void onClick(View v) {
                 if(dateEntryEditText.getText()!=null)
                 {
-                    if(dateEntryEditText.getText().toString().trim().matches("\\d{2}\\/\\d{2}\\/\\d{2}"))
+                    if(dateEntryEditText.getText().toString().trim().matches("\\d{2}\\/\\d{2}\\/\\d{4}"))
                     {
                         getApprovedOds();
                     }
@@ -89,8 +92,9 @@ public class ShowApprovedOds extends AppCompatActivity {
     }
 
     public void getApprovedOds(){
+        DisplayOds.clear();
         Log.d(TAG, "getApprovedOds called");
-        StringRequest request = new StringRequest(Request.Method.POST, Constants.FACULTY_GET_OD_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constants.FACULTY_GET_OD_TRIAL_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();

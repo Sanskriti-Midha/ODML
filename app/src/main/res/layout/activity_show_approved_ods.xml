@@ -40,7 +40,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
-            android:hint="Enter a date in format dd/mm/yy"
+            android:hint="Enter a date in format dd-mm-yy"
             android:textSize="15sp"/>
 
         <Button

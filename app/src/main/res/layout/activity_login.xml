@@ -54,7 +54,9 @@
 
         android:textColorHighlight="@color/white"/>
     <!--android:drawableLeft="@drawable/ic_lock_black_24dp"-->
+
     <CheckBox
+        android:id="@+id/rememberCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remember Me"
@@ -62,14 +64,6 @@
             android:layout_gravity="left"
             android:buttonTint="@color/colorPrimary"
             android:checked="true"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password"
-            android:layout_gravity="left"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            />
 
     <Button
         android:id="@+id/login_button"

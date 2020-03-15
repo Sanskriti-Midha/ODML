@@ -1,5 +1,7 @@
 package com.example.sanskriti.odml.Stuff;
 
+import java.net.URL;
+
 public class Constants {
     public static final String DB_URL="https://trialwebsiteseproject.000webhostapp.com/";
     public static final String LOGIN_URL= DB_URL+"login.php";
@@ -14,4 +16,5 @@ public class Constants {
     public static final String STUDENT_ACKNOWLEDGEMENT_URL= DB_URL+"student_acknowledgement.php";
     public static final String SHOW_APPROVED_ODS_URL= DB_URL+"show_approved_ods.php";
     public static final String FACULTY_GET_OD_URL = DB_URL+"faculty_get_od.php";
+    public static final String FACULTY_GET_OD_TRIAL_URL = DB_URL+"faculty_get_od_trial.php";
 }
