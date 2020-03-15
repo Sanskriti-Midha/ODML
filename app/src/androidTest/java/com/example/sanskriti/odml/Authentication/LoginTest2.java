@@ -109,7 +109,7 @@ public class LoginTest2 {
                                         0),
                                 4),
                         isDisplayed()));
-        textView.check(doesNotExist());
+        textView.check(matches(isDisplayed()));
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.login_button),
