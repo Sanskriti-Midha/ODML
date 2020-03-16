@@ -32,7 +32,7 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
 
     Button login_b;
-    private String email,password;
+    private String em ,password;
     private EditText emailEdit,passwordEdit;
     private CheckBox rememberCheckBox;
     private int saveLogin = 0;
@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         rememberCheckBox = findViewById(R.id.rememberCheckBox);
         login_b = findViewById(R.id.login_button);
@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity {
         login_b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = emailEdit.getText().toString().trim();
+                em = emailEdit.getText().toString().trim();
                 password = passwordEdit.getText().toString().trim();
                 login();
             }
@@ -99,7 +99,7 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void login() {
+    public void login() {
 
         StringRequest request = new StringRequest(Request.Method.POST, Constants.LOGIN_URL, new Response.Listener<String>() {
             @Override
@@ -111,7 +111,7 @@ public class Login extends AppCompatActivity {
                 {
                     if(saveLogin == 1)
                     {
-                        edit.putString("email",email);
+                        edit.putString("email",em);
                         edit.putString("password",password);
                         edit.apply();
 
@@ -122,7 +122,7 @@ public class Login extends AppCompatActivity {
                         edit.apply();
                     }
                     Intent i = new Intent(Login.this, StudentDashboard.class);
-                    i.putExtra("email",email);
+                    i.putExtra("email",em);
                     startActivity(i);
 
                 }
@@ -131,7 +131,7 @@ public class Login extends AppCompatActivity {
 
                     if(saveLogin == 1)
                     {
-                        edit.putString("email",email);
+                        edit.putString("email",em);
                         edit.putString("password",password);
                         edit.apply();
 
@@ -142,7 +142,7 @@ public class Login extends AppCompatActivity {
                         edit.apply();
                     }
                     Intent i = new Intent(Login.this, FacultyDashboard.class);
-                    i.putExtra("email",email);
+                    i.putExtra("email",em);
                     startActivity(i);
                 }
 
@@ -159,7 +159,7 @@ public class Login extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
 
-                params.put("email",email);
+                params.put("email",em);
                 params.put("password",password);
 
                 return params;
