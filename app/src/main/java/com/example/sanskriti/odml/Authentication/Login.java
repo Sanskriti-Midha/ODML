@@ -32,7 +32,7 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
 
     Button login_b;
-    private String em ,password;
+    private String email,password;
     private EditText emailEdit,passwordEdit;
     private CheckBox rememberCheckBox;
     private int saveLogin = 0;
@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity {
         login_b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                em = emailEdit.getText().toString().trim();
+                email = emailEdit.getText().toString().trim();
                 password = passwordEdit.getText().toString().trim();
                 login();
             }
@@ -111,7 +111,7 @@ public class Login extends AppCompatActivity {
                 {
                     if(saveLogin == 1)
                     {
-                        edit.putString("email",em);
+                        edit.putString("email",email);
                         edit.putString("password",password);
                         edit.apply();
 
@@ -122,7 +122,7 @@ public class Login extends AppCompatActivity {
                         edit.apply();
                     }
                     Intent i = new Intent(Login.this, StudentDashboard.class);
-                    i.putExtra("email",em);
+                    i.putExtra("email",email);
                     startActivity(i);
 
                 }
@@ -131,7 +131,7 @@ public class Login extends AppCompatActivity {
 
                     if(saveLogin == 1)
                     {
-                        edit.putString("email",em);
+                        edit.putString("email",email);
                         edit.putString("password",password);
                         edit.apply();
 
@@ -142,7 +142,7 @@ public class Login extends AppCompatActivity {
                         edit.apply();
                     }
                     Intent i = new Intent(Login.this, FacultyDashboard.class);
-                    i.putExtra("email",em);
+                    i.putExtra("email",email);
                     startActivity(i);
                 }
 
@@ -159,7 +159,7 @@ public class Login extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> params  = new HashMap<String,String>();
 
-                params.put("email",em);
+                params.put("email",email);
                 params.put("password",password);
 
                 return params;
